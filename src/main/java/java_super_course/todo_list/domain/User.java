@@ -1,0 +1,25 @@
+package java_super_course.todo_list.domain;
+
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String login;
+    private String password;
+    @OneToMany(mappedBy = "author")
+    private List<Todo> todoList;
+    @OneToMany(mappedBy = "author")
+    private List<Goal> goals;
+}
