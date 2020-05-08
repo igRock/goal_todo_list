@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="utf-8">
+  <title>Life balance</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans|Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div>
+
+  <nav class="navbar navbar-dark bg-dark text-white">
+    <a class="navbar-brand" href="#">Life balance</a>
+    <span>hi, <span sec:authentication="name"></span></span>
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+  </nav>
+
+
+  <div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-6">
+          <div class="card mx-auto p-3 mb-1 mt-2 rounded">
+            <div class="row">
+              <a th:href="@{/todo/create_or_update}" class="btn btn-outline-info ml-3" href="#" role="button">+ Add
+                todo</a>
+            </div>
+            <div class="card mx-auto col-12 shadow p-3 mb-1 bg-white rounded mt-3 " th:each="todo : ${todos}">
+              <form th:action="@{/todo/createOrUpdate}" th:object="${todo}" method="post">
+                <div class="row" th:attr="data-id=${todo.id}">
+                  <div class="col-8">
+                    <div class="row ml-0">
+                      <div class="col mt-3">
+                        <h5 th:text="${todo.description}"></h5>
+                      </div>
+                    </div>
+                    <div class="row ml-1">
+                      <span class="badge badge-pill badge-info m-1" th:each="goalLabel : ${todo.goals}"
+                            th:text="${goalLabel.name}"></span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="row">
+                      <a th:if="${todo.isDone}" th:href="@{/todo/toggle/{todoId}(todoId=${todo.id})}"
+                         class="btn btn-success col m-2">
+                        <i class="material-icons">done</i>
+                      </a>
+                      <a th:unless="${todo.isDone}" th:href="@{/todo/toggle/{todoId}(todoId=${todo.id})}"
+                         class="btn btn-outline-success col m-2">
+                        <i class="material-icons">done</i>
+                      </a>
+                      <a th:href="@{/todo/create_or_update/{id}(id=${todo.id})}"
+                         class="btn btn-outline-warning col m-2">
+                        <i class="material-icons">edit</i>
+                      </a>
+                      <a href="#" th:href="@{/todo/delete/{id}(id=${todo.id})}"
+                         class="btn btn-outline-danger col m-2">
+                        <i class="material-icons">delete</i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-6">
+          <div class="card mx-auto p-3 mb-1 mt-2 rounded">
+            <div class="row">
+              <a th:href="@{/goal/create_or_update}" class="btn btn-outline-info ml-3" href="#" role="button">+ Add
+                goal</a>
+            </div>
+            <div class="card mx-auto col-12 shadow p-3 mb-1 bg-white rounded mt-3 " th:each="goal : ${goals}">
+              <form th:action="@{/goal/createOrUpdate}" th:object="${goal}" method="post">
+                <div class="row" th:attr="data-id=${goal.id}">
+                  <div class="col-8">
+                    <div class="row ">
+                      <div class="col mt-3">
+                        <h5 th:text="${goal.name}">name</h5>
+                        <p th:text="${goal.description}">description</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="row">
+                      <a th:href="@{/goal/create_or_update/{id}(id=${goal.id})}"
+                         class="btn btn-outline-warning col m-2">
+                        <i class="material-icons">edit</i>
+                      </a>
+                      <a href="#" th:href="@{/goal/delete/{id}(id=${goal.id})}"
+                         class="btn btn-outline-danger col m-2">
+                        <i class="material-icons">delete</i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="progress" th:if="${goal.todos.size() != 0}">
+                      <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                           th:text="${goal.numberOfCompletedTodos} + ' из ' + ${goal.numberOfTodos}"
+                           th:style="'width:'+ ${goal.percent}+'%;'"></div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+</body>
+</html>
