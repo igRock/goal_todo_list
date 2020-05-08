@@ -1,0 +1,146 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2020-04-19-create_tables
+      author: g.topchiy
+      changes:
+        - createTable:
+            tableName: goals
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    - primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(522)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: description
+                  type: varchar(522)
+              - column:
+                  name: user_id
+                  type: bigint
+        - addAutoIncrement:
+            columnDataType: bigint
+            columnName: id
+            defaultOnNull: false
+            generationType: ALWAYS
+            incrementBy: 1
+            startWith: 100
+            tableName: goals
+
+        - createTable:
+            tableName: todos
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    - primaryKey: true
+              - column:
+                  name: description
+                  type: varchar(522)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: is_done
+                  type: boolean
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+        - addAutoIncrement:
+            columnDataType: bigint
+            columnName: id
+            defaultOnNull: false
+            generationType: ALWAYS
+            incrementBy: 1
+            startWith: 100
+            tableName: todos
+
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    - primaryKey: true
+              - column:
+                  name: login
+                  type: varchar(522)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: password
+                  type: varchar(522)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: email
+                  type: varchar(522)
+                  constraints:
+                    - nullable: false
+        - addAutoIncrement:
+            columnDataType: bigint
+            columnName: id
+            defaultOnNull: false
+            generationType: ALWAYS
+            incrementBy: 1
+            startWith: 100
+            tableName: users
+        - addUniqueConstraint:
+            columnNames: email
+            constraintName: unique_email
+            tableName: users
+            validate: true
+
+        - createTable:
+            tableName: goal_todo
+            columns:
+              - column:
+                  name: goal_id
+                  type: bigint
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: todo_id
+                  type: bigint
+                  constraints:
+                    - nullable: false
+
+        - addPrimaryKey:
+            constraintName: pk_goal_todo
+            columnNames: goal_id,todo_id
+            tableName: goal_todo
+
+        - addForeignKeyConstraint:
+            constraintName: goal_fk
+            baseColumnNames: goal_id
+            baseTableName: goal_todo
+            referencedColumnNames: id
+            referencedTableName: goals
+
+        - addForeignKeyConstraint:
+            constraintName: todo_fk
+            baseColumnNames: todo_id
+            baseTableName: goal_todo
+            referencedColumnNames: id
+            referencedTableName: todos
+
+        - addForeignKeyConstraint:
+            constraintName: goal_user_fk
+            baseColumnNames: user_id
+            baseTableName: goals
+            referencedColumnNames: id
+            referencedTableName: users
+
+        - addForeignKeyConstraint:
+            constraintName: todo_user_fk
+            baseColumnNames: user_id
+            baseTableName: todos
+            referencedColumnNames: id
+            referencedTableName: users
