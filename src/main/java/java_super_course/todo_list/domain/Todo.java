@@ -3,6 +3,7 @@ package java_super_course.todo_list.domain;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
+    @Column(name = "is_done")
     private Boolean isDone = false;
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
