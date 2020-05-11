@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,6 +31,6 @@ public class Goal {
     @JoinColumn(name="user_id", nullable=false)
     private User author;
 
-    @ManyToMany(mappedBy = "goals", cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy = "goals", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Todo> todos = new HashSet<>();
 }

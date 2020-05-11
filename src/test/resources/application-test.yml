@@ -1,16 +1,16 @@
 datasource:
-  goal_todo_list:
-    jdbc-url: jdbc:tc:mysql:5.7.22:///databasename?TC_INITSCRIPT=config/create_test_schema.sql
-
-liquibase:
-  default-schema: goal_todo_list
+  goal-todo-list:
+    jdbc-url: jdbc:tc:postgresql:9.6.16://hostname/goal_todo_list?TC_DAEMON=true&TC_INITSCRIPT=create_test_schema.sql
 
 spring:
   datasource:
-    #start docker img with psql for tests
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
     properties:
       hibernate:
         format_sql: true
         default_schema: goal_todo_list
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    default-schema: goal_todo_list

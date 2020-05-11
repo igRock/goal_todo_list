@@ -1,1 +1,1 @@
-CREATE SCHEMA "goal_todo_list";
+CREATE SCHEMA IF NOT EXISTS "goal_todo_list" ;

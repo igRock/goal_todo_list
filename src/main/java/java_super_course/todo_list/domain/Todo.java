@@ -33,7 +33,7 @@ public class Todo {
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User author;
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
         name = "goal_todo",
         joinColumns = @JoinColumn(name = "todo_id", referencedColumnName="id"),
