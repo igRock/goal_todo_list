@@ -1,15 +1,17 @@
 package java_super_course.todo_list.controllers;
 
-import java.util.Optional;
 import java_super_course.todo_list.domain.Goal;
 import java_super_course.todo_list.services.GoalService;
+import java_super_course.todo_list.validation.GoalBelongsToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Validated
 @Controller
 @RequestMapping("/goal")
 public class GoalController {
@@ -21,13 +23,17 @@ public class GoalController {
     }
 
     @GetMapping("/delete/{goalId}")
-    public String deleteGoalById(@PathVariable Long goalId) {
+    public String deleteGoalById(
+        @GoalBelongsToUser
+        @PathVariable Long goalId) {
         goalService.deleteGoalById(goalId);
         return "redirect:/main";
     }
 
     @GetMapping(path = {"/create_or_update", "/create_or_update/{goalId}"})
-    public String createOrUpdateGoal(Model model, @PathVariable Optional<Long> goalId) {
+    public String createOrUpdateGoal(Model model,
+                                     @GoalBelongsToUser
+                                     @PathVariable(required = false) Long goalId) {
         Goal goal = goalService.getGoalById(goalId);
         model.addAttribute("goal", goal);
         return "goal-form";

@@ -20,17 +20,18 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final TodoMapper todoMapper;
     private final GoalService goalService;
+    private final UserService userService;
 
     public TodoService(TodoRepository todoRepository, TodoMapper todoMapper,
-                       GoalService goalService) {
+                       GoalService goalService, UserService userService) {
         this.todoRepository = todoRepository;
         this.todoMapper = todoMapper;
         this.goalService = goalService;
+        this.userService = userService;
     }
 
     public List<Todo> getUsersTodos() {
-        User authorizedUser =
-            (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User authorizedUser = userService.getAuthorizedUser();
         List<Todo> usersTodo = todoRepository.findTodoByAuthorId(authorizedUser.getId());
         usersTodo.sort(Comparator.comparing(Todo::getIsDone));
         return usersTodo;
@@ -40,12 +41,10 @@ public class TodoService {
         return todoRepository.findById(id).orElseThrow(EntityNotFoundException::new); // Посмотреть потом
     }
 
-    public TodoEditDto getTodoEditModelDto(Optional<Long> todoId) {
-        Todo todo = todoId.isPresent() ? getTodoById(todoId.get()) : new Todo();
-        List<GoalWithActivity> goalWithActivities = goalService.getTodoGoalDtos(todo);
-        TodoEditDto todoEditDto = todoMapper.toTodoEditDto(todo);
-        todoEditDto.setGoalsWithActivity(goalWithActivities);
-        return todoEditDto;
+    public TodoEditDto getTodoEditModelDto(Long todoId) {
+        Todo todo = todoId != null ? getTodoById(todoId) : new Todo();
+        List<GoalWithActivity> goalsWithActivities = goalService.getTodoGoalDtos(todo);
+        return todoMapper.toTodoEditDto(todo, goalsWithActivities);
     }
 
     public void deleteTodoById(Long id) {
@@ -53,8 +52,7 @@ public class TodoService {
     }
 
     public void createOrUpdateTodo(TodoEditDto todoEditDto) {
-        User authorizedUser =
-            (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User authorizedUser = userService.getAuthorizedUser();
 
         todoEditDto.setAuthor(authorizedUser);
         todoEditDto.setGoalsWithActivity(todoEditDto.getGoalsWithActivity().stream()

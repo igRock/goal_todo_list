@@ -19,15 +19,18 @@ public class GoalService {
 
     private final GoalMapper goalMapper;
     private final GoalRepository goalRepository;
+    private final UserService userService;
 
-    public GoalService(GoalMapper goalMapper, GoalRepository goalRepository) {
+    public GoalService(GoalMapper goalMapper, GoalRepository goalRepository,
+                       UserService userService) {
         this.goalMapper = goalMapper;
         this.goalRepository = goalRepository;
+        this.userService = userService;
     }
 
     public List<GoalWithActivity> getTodoGoalDtos(Todo todo) {
-        User authorizedUser =
-            (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User authorizedUser = userService.getAuthorizedUser();
+
         List<Goal> goalsFromRepository = Lists.newArrayList(goalRepository.findGoalByAuthorId(authorizedUser.getId()));
         List<GoalWithActivity> goalWithActivities = goalMapper.toGoalWithActivity(goalsFromRepository);
         goalWithActivities.forEach(goalDto -> goalDto.setIsActive(
@@ -36,15 +39,15 @@ public class GoalService {
     }
 
     public List<GoalWithStatistics> getUsersGoals() {
-        User authorizedUser =
-            (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User authorizedUser =userService.getAuthorizedUser();
         return goalMapper.toGoalWithStatistics(goalRepository.findGoalByAuthorId(authorizedUser.getId()));
     }
 
-    public Goal getGoalById(Optional<Long> id) {
-        return id
-            .map(aLong -> goalRepository.findById(aLong).orElseThrow(EntityNotFoundException::new))
-            .orElseGet(Goal::new);
+    public Goal getGoalById(Long id) {
+        if (id == null) {
+            return new Goal();
+        }
+        return goalRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public void deleteGoalById(Long id) {
@@ -54,8 +57,7 @@ public class GoalService {
     }
 
     public void createOrUpdateGoal(Goal goal) {
-        User authorizedUser =
-            (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User authorizedUser =userService.getAuthorizedUser();
         goal.setAuthor(authorizedUser);
         goalRepository.save(goal);
     }
