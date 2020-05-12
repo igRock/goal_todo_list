@@ -3,7 +3,6 @@ package java_super_course.todo_list;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java_super_course.todo_list.config.DbConfig;
 import java_super_course.todo_list.domain.Goal;
 import java_super_course.todo_list.domain.Todo;
 import java_super_course.todo_list.domain.User;
@@ -15,23 +14,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {
-    DbConfig.class,
-    LiquibaseProperties.class
-})
-@ActiveProfiles("test")
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
+@AutoConfigureTestDatabase(replace=Replace.NONE)
 public class GoalTodoListTest {
+
 
     @Autowired
     private TodoRepository todoRepository;
@@ -39,6 +31,7 @@ public class GoalTodoListTest {
     private UserRepository userRepository;
     @Autowired
     private GoalRepository goalRepository;
+
 
     @Test
     @Transactional
