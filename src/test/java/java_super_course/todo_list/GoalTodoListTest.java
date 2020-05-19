@@ -24,7 +24,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 public class GoalTodoListTest {
 
-
     @Autowired
     private TodoRepository todoRepository;
     @Autowired
@@ -32,10 +31,9 @@ public class GoalTodoListTest {
     @Autowired
     private GoalRepository goalRepository;
 
-
     @Test
     @Transactional
-    public void testFindTodoByAuthorId(){
+    public void should_find_todo_by_author_id(){
         User savedUser = generateNewUser();
         Todo savedTodo = generateNewTodo(savedUser);
         Goal savedGoal = generateNewGoal(savedUser);
@@ -50,7 +48,7 @@ public class GoalTodoListTest {
     }
 
     @Test
-    public void testFindGoalByAuthorId(){
+    public void should_find_goal_by_author_id(){
         User savedUser = generateNewUser();
         Todo savedTodo = generateNewTodo(savedUser);
         Goal savedGoal = generateNewGoal(savedUser);
@@ -65,7 +63,7 @@ public class GoalTodoListTest {
     }
 
     @Test
-    public void testFindUserByEmail () {
+    public void should_find_user_by_email () {
         User savedUser = generateNewUser();
         User foundUser = userRepository.findByEmail(savedUser.getEmail());
         Assert.assertEquals(foundUser, savedUser);
