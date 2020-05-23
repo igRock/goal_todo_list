@@ -22,14 +22,14 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @PreAuthorize("isTodoAuthor(#todoId)")
+    @PreAuthorize("@methodsAuthorityEvaluator.isTodoAuthor(#goalId)")
     @GetMapping("/delete/{todoId}")
     public String deleteTodoById(@PathVariable Long todoId) {
         todoService.deleteTodoById(todoId);
         return "redirect:/main";
     }
 
-    @PreAuthorize("isTodoAuthor(#todoId)")
+    @PreAuthorize("@methodsAuthorityEvaluator.isTodoAuthor(#goalId)")
     @GetMapping(path = {"/create_or_update", "/create_or_update/{todoId}"})
     public String createOrUpdateTodo(Model model, @PathVariable(required = false) Long todoId) {
         TodoEditDto todoEditDto = todoService.getTodoEditModelDto(todoId);
@@ -43,7 +43,7 @@ public class TodoController {
         return "redirect:/main";
     }
 
-    @PreAuthorize("isTodoAuthor(#todoId)")
+    @PreAuthorize("@methodsAuthorityEvaluator.isTodoAuthor(#goalId)")
     @GetMapping("/toggle/{todoId}")
     public String toggleTodo(@PathVariable Long todoId) {
         todoService.toggleTodo(todoId);

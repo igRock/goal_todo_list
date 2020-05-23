@@ -2,7 +2,6 @@ package java_super_course.todo_list.controllers;
 
 import java_super_course.todo_list.domain.Goal;
 import java_super_course.todo_list.services.GoalService;
-import java_super_course.todo_list.validation.GoalBelongsToUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +22,7 @@ public class GoalController {
         this.goalService = goalService;
     }
 
-    @PreAuthorize("isGoalAuthor(#goalId)")
+    @PreAuthorize("@methodsAuthorityEvaluator.isGoalAuthor(#goalId)")
     @GetMapping("/delete/{goalId}")
     public String deleteGoalById(
         @PathVariable Long goalId) {
@@ -31,7 +30,7 @@ public class GoalController {
         return "redirect:/main";
     }
 
-    @PreAuthorize("isGoalAuthor(#goalId)")
+    @PreAuthorize("@methodsAuthorityEvaluator.isGoalAuthor(#goalId)")
     @GetMapping(path = {"/create_or_update", "/create_or_update/{goalId}"})
     public String createOrUpdateGoal(Model model,
                                      @PathVariable(required = false) Long goalId) {

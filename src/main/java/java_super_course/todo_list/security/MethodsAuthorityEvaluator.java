@@ -1,22 +1,27 @@
 package java_super_course.todo_list.security;
 
-import java.util.List;
 import java_super_course.todo_list.domain.Goal;
 import java_super_course.todo_list.domain.Todo;
 import java_super_course.todo_list.domain.User;
 import java_super_course.todo_list.services.GoalService;
 import java_super_course.todo_list.services.TodoService;
-import org.springframework.security.access.expression.SecurityExpressionRoot;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
+import java_super_course.todo_list.services.UserService;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
-public class GoalMethodsSecurityExpressionRoot extends SecurityExpressionRoot implements MethodSecurityExpressionOperations {
+@Component
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class MethodsAuthorityEvaluator {
 
+    private UserService userService;
     private GoalService goalService;
     private TodoService todoService;
 
-    public GoalMethodsSecurityExpressionRoot(Authentication authentication, GoalService goalService, TodoService todoService) {
-        super(authentication);
+    public MethodsAuthorityEvaluator(UserService userService,
+                                     GoalService goalService, TodoService todoService) {
+        this.userService = userService;
         this.goalService = goalService;
         this.todoService = todoService;
     }
@@ -25,7 +30,7 @@ public class GoalMethodsSecurityExpressionRoot extends SecurityExpressionRoot im
         if (goalId == null) {
             return true;
         }
-        User user = (User) this.getPrincipal();
+        User user = userService.getAuthorizedUser();
         Goal goal = goalService.getGoalById(goalId);
         return user.equals(goal.getAuthor());
     }
@@ -34,33 +39,8 @@ public class GoalMethodsSecurityExpressionRoot extends SecurityExpressionRoot im
         if (todoId == null) {
             return true;
         }
-        User user = (User) this.getPrincipal();
+        User user = userService.getAuthorizedUser();
         Todo todo = todoService.getTodoEditModelDto(todoId);
         return user.equals(todo.getAuthor());
-    }
-
-    @Override
-    public void setFilterObject(Object o) {
-
-    }
-
-    @Override
-    public Object getFilterObject() {
-        return null;
-    }
-
-    @Override
-    public void setReturnObject(Object o) {
-
-    }
-
-    @Override
-    public Object getReturnObject() {
-        return null;
-    }
-
-    @Override
-    public Object getThis() {
-        return null;
     }
 }
