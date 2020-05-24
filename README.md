@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/igRock/goal_todo_list.svg?branch=master)](https://travis-ci.com/igRock/goal_todo_list)
 ***
 запустить слона к которому коннектится приложение
 ```bash
