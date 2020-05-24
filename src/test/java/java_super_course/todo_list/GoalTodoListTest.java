@@ -11,6 +11,7 @@ import java_super_course.todo_list.repository.TodoRepository;
 import java_super_course.todo_list.repository.UserRepository;
 import javax.transaction.Transactional;
 import org.junit.Assert;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,15 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 public class GoalTodoListTest {
+
+    @ClassRule
+    public static PostgreSQLContainer postgres = (PostgreSQLContainer) new PostgreSQLContainer();
 
     @Autowired
     private TodoRepository todoRepository;

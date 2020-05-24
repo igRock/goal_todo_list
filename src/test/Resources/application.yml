@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/goal_todo_list?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false
+    url: jdbc:tc:postgresql://localhost:5432/goal_todo_list?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false
     username: postgres
     password: password
-#    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
     properties:
       hibernate:
