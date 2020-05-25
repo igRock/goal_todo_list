@@ -1,0 +1,4 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql://localhost:5432/goal_todo_list?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
