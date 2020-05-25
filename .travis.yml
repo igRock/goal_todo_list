@@ -1,2 +1,4 @@
 language: java
 services: docker
+before_install:
+  - sudo service postgresql stop
