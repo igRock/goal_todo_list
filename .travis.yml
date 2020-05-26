@@ -1,5 +1,5 @@
 language: java
 services:
-  -docker
+  - docker
 script:
-  -mvn clean install
+  - mvn clean install
