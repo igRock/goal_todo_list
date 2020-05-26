@@ -10,8 +10,6 @@ jobs:
     - stage: deploy
       sudo: false
       services: []
-      install: skip
-      script: skip
       deploy:
         provider: script
         script: ./gradlew -Pversion=$TRAVIS_TAG release --scan --no-daemon -i
