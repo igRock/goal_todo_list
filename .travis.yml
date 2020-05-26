@@ -5,14 +5,3 @@ jdk:
   - openjdk11
 script:
   - mvn clean install
-jobs:
-  include:
-    - stage: deploy
-      sudo: false
-      services: []
-      deploy:
-        provider: script
-        script: ./gradlew -Pversion=$TRAVIS_TAG release --scan --no-daemon -i
-        on:
-          tags: true
-          branch: master
