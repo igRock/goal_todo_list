@@ -1,4 +1,4 @@
-if: tag is present
+
 language: java
 services:
   - docker
