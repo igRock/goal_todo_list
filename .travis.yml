@@ -1,16 +1,12 @@
-if: tag is present
-
 language: java
-jdk:
-  - openjdk11
-
-sudo: required
 services:
   - docker
-
+jdk:
+  - openjdk11
+script:
+  - mvn clean install
 jobs:
   include:
-
     - stage: deploy
       sudo: false
       services: []
