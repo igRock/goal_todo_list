@@ -1,6 +1,21 @@
+if: tag is present
 language: java
 services:
   - docker
   - postgresql
-script:
-  - mvn clean install
+
+jobs:
+  include:
+
+    - stage: deploy
+      sudo: false
+      services: []
+      install: skip
+      script: skip
+      deploy:
+        provider: script
+        script: ./gradlew -Pversion=$TRAVIS_TAG release --scan --no-daemon -i
+        on:
+          tags: true
+          branch: master
+
