@@ -1,4 +1,5 @@
 language: java
 services:
   -docker
-  -postgresql
+script:
+  -mvn clean install
