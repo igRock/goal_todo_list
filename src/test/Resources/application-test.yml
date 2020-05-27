@@ -1,4 +1,4 @@
 spring:
   datasource:
-    url: jdbc:tc:postgresql://localhost:5432/goal_todo_list?TC_DAEMON=true&TC_INITSCRIPT=create_test_schema.sql&serverTimezone=UTC&useSSL=false
+    url: jdbc:tc:postgresql://localhost:5432/goal_todo_list?TC_DAEMON=true&TC_INITSCRIPT=create_test_schema.sql
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
