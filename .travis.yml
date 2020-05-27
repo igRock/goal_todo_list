@@ -4,3 +4,14 @@ services:
   - docker
 script:
   - mvn clean install
+before_install:
+  - echo '{
+  "auths" : {
+    "https://index.docker.io/v1/" : {
+
+    }
+  },
+  "credsStore" : "desktop",
+  "stackOrchestrator" : "swarm",
+  "experimental" : "disabled"
+}' > /home/travis/.docker/config.json
