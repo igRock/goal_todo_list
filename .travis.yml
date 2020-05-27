@@ -2,4 +2,5 @@ language: java
 services:
   - docker
 before_install:
+  - docker login
   - docker run --name goal_todo_list -e POSTGRES_PASSWORD=password -e POSTGRES_DB=goal_todo_list -d -p 5432:5432 postgres
