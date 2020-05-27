@@ -5,4 +5,4 @@ services:
 script:
   - mvn clean install
 before_install:
-  - "echo '{"auths" : {"https://index.docker.io/v1/" : {}},"credsStore" : "desktop","stackOrchestrator" : "swarm","experimental" : "disabled"}' > /home/travis/.docker/config.json"
+  - docker run --name goal_todo_list -e POSTGRES_PASSWORD=password -e POSTGRES_DB=goal_todo_list -d -p 5432:5432 postgres
