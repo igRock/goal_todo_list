@@ -28,8 +28,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @ActiveProfiles("test")
 public class GoalTodoListTest {
 
-    @ClassRule
-    public static PostgreSQLContainer postgres = (PostgreSQLContainer) new PostgreSQLContainer();
+//    @ClassRule
+//    public static PostgreSQLContainer postgres = (PostgreSQLContainer) new PostgreSQLContainer();
 
     @Autowired
     private TodoRepository todoRepository;
