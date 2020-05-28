@@ -4,5 +4,5 @@ spring:
 #    url: jdbc:tc:postgresql://${DB_HOST:localhost}/goal_todo_list
     url: jdbc:tc:postgresql:9.6.8://hostname/goal_todo_list?TC_DAEMON=true
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-before_install:
+script:
   - cat .docker/config.json
