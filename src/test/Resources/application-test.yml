@@ -1,4 +1,5 @@
 spring:
   datasource:
-    url: jdbc:tc:postgresql://localhost:5432/goal_todo_list?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false
+#    url: jdbc:tc:postgresql://localhost:5432/goal_todo_list?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false
+    url: jdbc:tc:postgresql://${DB_HOST:localhost}/goal_todo_list
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
