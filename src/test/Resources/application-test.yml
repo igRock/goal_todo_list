@@ -2,5 +2,5 @@ spring:
   datasource:
 #    url: jdbc:tc:postgresql://localhost:5432/goal_todo_list
 #    url: jdbc:tc:postgresql://${DB_HOST:localhost}/goal_to_do_list
-    url: jdbc:tc:postgresql:9.6.8://hostname/goal_to_do_list
+    url: jdbc:tc:postgresql:9.6.8://hostname/goal_todo_list
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
