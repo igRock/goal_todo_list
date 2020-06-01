@@ -11,19 +11,24 @@ import java_super_course.todo_list.repository.TodoRepository;
 import java_super_course.todo_list.repository.UserRepository;
 import javax.transaction.Transactional;
 import org.junit.Assert;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace=Replace.NONE)
+@ActiveProfiles("test")
 public class GoalTodoListTest {
-
 
     @Autowired
     private TodoRepository todoRepository;
@@ -32,10 +37,9 @@ public class GoalTodoListTest {
     @Autowired
     private GoalRepository goalRepository;
 
-
     @Test
     @Transactional
-    public void testFindTodoByAuthorId(){
+    public void should_find_todo_by_author_id(){
         User savedUser = generateNewUser();
         Todo savedTodo = generateNewTodo(savedUser);
         Goal savedGoal = generateNewGoal(savedUser);
@@ -50,7 +54,7 @@ public class GoalTodoListTest {
     }
 
     @Test
-    public void testFindGoalByAuthorId(){
+    public void should_find_goal_by_author_id(){
         User savedUser = generateNewUser();
         Todo savedTodo = generateNewTodo(savedUser);
         Goal savedGoal = generateNewGoal(savedUser);
@@ -65,7 +69,7 @@ public class GoalTodoListTest {
     }
 
     @Test
-    public void testFindUserByEmail () {
+    public void should_find_user_by_email () {
         User savedUser = generateNewUser();
         User foundUser = userRepository.findByEmail(savedUser.getEmail());
         Assert.assertEquals(foundUser, savedUser);
